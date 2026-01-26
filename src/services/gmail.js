@@ -33,6 +33,8 @@ export async function fetchEmailsWithUnsubscribe(accessToken, onProgress, maxRes
     pageToken = data.nextPageToken;
   } while (pageToken && allMessages.length < maxResults);
 
+  console.log(`Found ${allMessages.length} emails matching 'unsubscribe' query`);
+
   // Fetch message details in batches
   const batchSize = 20;
   const messagesWithHeaders = [];
@@ -50,22 +52,28 @@ export async function fetchEmailsWithUnsubscribe(accessToken, onProgress, maxRes
     });
   }
 
+  console.log(`Found ${messagesWithHeaders.length} emails with List-Unsubscribe header`);
+
   return messagesWithHeaders;
 }
 
 async function fetchMessageHeaders(accessToken, messageId) {
   const url = new URL(`${GMAIL_API_BASE}/messages/${messageId}`);
   url.searchParams.set('format', 'metadata');
-  url.searchParams.set(
-    'metadataHeaders',
-    'From,List-Unsubscribe,List-Unsubscribe-Post,Subject'
-  );
+  // Gmail API requires separate metadataHeaders params for each header
+  url.searchParams.append('metadataHeaders', 'From');
+  url.searchParams.append('metadataHeaders', 'List-Unsubscribe');
+  url.searchParams.append('metadataHeaders', 'List-Unsubscribe-Post');
+  url.searchParams.append('metadataHeaders', 'Subject');
 
   const response = await fetch(url, {
     headers: { Authorization: `Bearer ${accessToken}` },
   });
 
-  if (!response.ok) return null;
+  if (!response.ok) {
+    console.warn(`Failed to fetch message ${messageId}:`, response.status);
+    return null;
+  }
 
   const data = await response.json();
   const headers = data.payload?.headers || [];
@@ -74,6 +82,8 @@ async function fetchMessageHeaders(accessToken, messageId) {
     headers.find((h) => h.name.toLowerCase() === name.toLowerCase())?.value;
 
   const listUnsubscribe = getHeader('List-Unsubscribe');
+
+  // Skip emails without List-Unsubscribe header
   if (!listUnsubscribe) return null;
 
   return {
