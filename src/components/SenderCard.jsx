@@ -9,15 +9,15 @@ export function SenderCard({ sender, isSelected, onToggle, status }) {
   const getStatusStyles = () => {
     switch (status) {
       case 'processing':
-        return 'ring-2 ring-yellow-400 bg-yellow-50';
+        return 'ring-2 ring-yellow-400 bg-yellow-50 dark:bg-yellow-900/20';
       case 'done':
-        return 'ring-2 ring-green-400 bg-green-50';
+        return 'ring-2 ring-green-400 bg-green-50 dark:bg-green-900/20';
       case 'error':
-        return 'ring-2 ring-red-400 bg-red-50';
+        return 'ring-2 ring-red-400 bg-red-50 dark:bg-red-900/20';
       default:
         return isSelected
-          ? 'ring-2 ring-red-400 bg-red-50'
-          : 'hover:shadow-md';
+          ? 'ring-2 ring-red-400 bg-red-50 dark:bg-red-900/20'
+          : 'hover:shadow-md dark:hover:shadow-gray-900/50';
     }
   };
 
@@ -28,7 +28,7 @@ export function SenderCard({ sender, isSelected, onToggle, status }) {
       animate={{ opacity: 1, scale: 1 }}
       exit={{ opacity: 0, scale: 0.8, y: 20 }}
       whileHover={{ y: -2 }}
-      className={`relative bg-white rounded-xl p-4 shadow-sm border border-gray-100 cursor-pointer transition-all ${getStatusStyles()}`}
+      className={`relative bg-white dark:bg-gray-800 rounded-xl p-4 shadow-sm border border-gray-100 dark:border-gray-700 cursor-pointer transition-all ${getStatusStyles()}`}
       onClick={() => status !== 'done' && onToggle()}
     >
       {status === 'done' && (
@@ -62,12 +62,12 @@ export function SenderCard({ sender, isSelected, onToggle, status }) {
             <img
               src={logoUrl}
               alt=""
-              className="w-10 h-10 rounded-lg object-contain bg-gray-50"
+              className="w-10 h-10 rounded-lg object-contain bg-gray-50 dark:bg-gray-700"
               onError={() => setImgError(true)}
             />
           ) : (
-            <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-gray-200 to-gray-300 flex items-center justify-center">
-              <span className="text-gray-500 font-semibold text-sm">
+            <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-gray-200 to-gray-300 dark:from-gray-600 dark:to-gray-700 flex items-center justify-center">
+              <span className="text-gray-500 dark:text-gray-300 font-semibold text-sm">
                 {sender.name.charAt(0).toUpperCase()}
               </span>
             </div>
@@ -75,16 +75,16 @@ export function SenderCard({ sender, isSelected, onToggle, status }) {
         </div>
 
         <div className="flex-1 min-w-0">
-          <h3 className="font-medium text-gray-900 truncate">{sender.name}</h3>
-          <p className="text-sm text-gray-500 truncate">{sender.email}</p>
+          <h3 className="font-medium text-gray-900 dark:text-white truncate">{sender.name}</h3>
+          <p className="text-sm text-gray-500 dark:text-gray-400 truncate">{sender.email}</p>
         </div>
 
         <div className="flex flex-col items-end gap-1">
-          <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-700">
+          <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300">
             {sender.messages.length} emails
           </span>
           {sender.hasOneClickUnsubscribe && (
-            <span className="text-xs text-green-600">1-click unsub</span>
+            <span className="text-xs text-green-600 dark:text-green-400">1-click unsub</span>
           )}
         </div>
       </div>

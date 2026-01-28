@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { AnimatePresence } from 'framer-motion';
 import { useGoogleAuth } from './hooks/useGoogleAuth';
+import { useTheme } from './hooks/useTheme';
 import { fetchEmailsWithUnsubscribe, groupBySender } from './services/gmail';
 import { Header } from './components/Header';
 import { SetupScreen } from './components/SetupScreen';
@@ -20,6 +21,8 @@ function App() {
   const [scanProgress, setScanProgress] = useState(null);
   const [isProcessing, setIsProcessing] = useState(false);
   const hasFetchedRef = useRef(false);
+
+  const { isDark, toggleTheme } = useTheme();
 
   const {
     accessToken,
@@ -157,6 +160,8 @@ function App() {
         isReady={isReady}
         isLoading={isLoading}
         error={error}
+        isDark={isDark}
+        onToggleTheme={toggleTheme}
       />
     );
   }
@@ -167,13 +172,15 @@ function App() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       <Header
         user={user}
         onSignOut={handleSignOut}
         selectedCount={selectedIds.size}
         onUnsubscribe={handleUnsubscribe}
         isProcessing={isProcessing}
+        isDark={isDark}
+        onToggleTheme={toggleTheme}
       />
 
       <AnimatePresence mode="wait">

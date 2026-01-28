@@ -20,7 +20,7 @@ export function LoadingScreen({ progress }) {
               cx="12"
               cy="12"
               r="10"
-              stroke="#e5e7eb"
+              className="stroke-gray-200 dark:stroke-gray-700"
               strokeWidth="3"
             />
             <path
@@ -32,11 +32,11 @@ export function LoadingScreen({ progress }) {
           </svg>
         </motion.div>
 
-        <h2 className="text-xl font-semibold text-gray-900 mb-2">
+        <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
           Scanning your inbox...
         </h2>
 
-        <p className="text-gray-500 mb-4">
+        <p className="text-gray-500 dark:text-gray-400 mb-4">
           {phase === 'listing' && `Found ${count || 0} emails so far...`}
           {phase === 'fetching' && `Processing ${current || 0} of ${total || 0} emails...`}
           {!phase && 'Starting scan...'}
@@ -44,7 +44,7 @@ export function LoadingScreen({ progress }) {
 
         {phase === 'fetching' && total > 0 && (
           <div className="w-64 mx-auto">
-            <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
+            <div className="h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
               <motion.div
                 className="h-full bg-red-500"
                 initial={{ width: 0 }}
@@ -52,7 +52,7 @@ export function LoadingScreen({ progress }) {
                 transition={{ duration: 0.3 }}
               />
             </div>
-            <p className="text-sm text-gray-400 mt-2">
+            <p className="text-sm text-gray-400 dark:text-gray-500 mt-2">
               {Math.round((current / total) * 100)}%
             </p>
           </div>

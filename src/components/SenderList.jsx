@@ -20,17 +20,17 @@ export function SenderList({
         className="mb-6 flex items-center justify-between"
       >
         <div>
-          <h2 className="text-xl font-semibold text-gray-900">
+          <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
             Found {senders.length} senders
           </h2>
-          <p className="text-gray-500">
+          <p className="text-gray-500 dark:text-gray-400">
             {totalEmails} emails with unsubscribe options
           </p>
         </div>
         {senders.length > 0 && (
           <button
             onClick={allSelected ? onDeselectAll : onSelectAll}
-            className="text-sm text-gray-600 hover:text-gray-900 px-3 py-1.5 rounded-lg hover:bg-gray-100 transition-colors"
+            className="text-sm text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white px-3 py-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
           >
             {allSelected ? 'Deselect all' : 'Select all'}
           </button>
@@ -58,10 +58,10 @@ export function SenderList({
           className="text-center py-16"
         >
           <div className="text-6xl mb-4">🎉</div>
-          <h3 className="text-xl font-semibold text-gray-900 mb-2">
+          <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
             All clean!
           </h3>
-          <p className="text-gray-500">
+          <p className="text-gray-500 dark:text-gray-400">
             No more senders with unsubscribe links found.
           </p>
         </motion.div>

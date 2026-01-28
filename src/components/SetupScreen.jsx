@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 
-export function SetupScreen({ onClientIdSet, clientId, onSignIn, isReady, isLoading, error }) {
+export function SetupScreen({ onClientIdSet, clientId, onSignIn, isReady, isLoading, error, isDark, onToggleTheme }) {
   const [inputValue, setInputValue] = useState(clientId || '');
   const [showInstructions, setShowInstructions] = useState(false);
 
@@ -14,6 +14,23 @@ export function SetupScreen({ onClientIdSet, clientId, onSignIn, isReady, isLoad
 
   return (
     <div className="min-h-screen flex items-center justify-center p-4">
+      {/* Theme toggle in corner */}
+      <button
+        onClick={onToggleTheme}
+        className="absolute top-4 right-4 p-2 rounded-lg text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+        aria-label="Toggle theme"
+      >
+        {isDark ? (
+          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+          </svg>
+        ) : (
+          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+          </svg>
+        )}
+      </button>
+
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -21,7 +38,7 @@ export function SetupScreen({ onClientIdSet, clientId, onSignIn, isReady, isLoad
       >
         <div className="text-center mb-8">
           <motion.h1
-            className="text-5xl font-bold text-gray-900 mb-2"
+            className="text-5xl font-bold text-gray-900 dark:text-white mb-2"
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
@@ -29,7 +46,7 @@ export function SetupScreen({ onClientIdSet, clientId, onSignIn, isReady, isLoad
             Unsub
           </motion.h1>
           <motion.p
-            className="text-gray-500 text-lg"
+            className="text-gray-500 dark:text-gray-400 text-lg"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.2 }}
@@ -39,7 +56,7 @@ export function SetupScreen({ onClientIdSet, clientId, onSignIn, isReady, isLoad
         </div>
 
         <motion.div
-          className="bg-white rounded-2xl shadow-xl p-6 border border-gray-100"
+          className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-6 border border-gray-100 dark:border-gray-700"
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.3 }}
@@ -48,7 +65,7 @@ export function SetupScreen({ onClientIdSet, clientId, onSignIn, isReady, isLoad
             <>
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                     Google OAuth Client ID
                   </label>
                   <input
@@ -56,13 +73,13 @@ export function SetupScreen({ onClientIdSet, clientId, onSignIn, isReady, isLoad
                     value={inputValue}
                     onChange={(e) => setInputValue(e.target.value)}
                     placeholder="xxxxx.apps.googleusercontent.com"
-                    className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:ring-2 focus:ring-red-500 focus:border-transparent outline-none transition-all"
+                    className="w-full px-4 py-3 rounded-lg border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:ring-2 focus:ring-red-500 focus:border-transparent outline-none transition-all"
                   />
                 </div>
                 <button
                   type="submit"
                   disabled={!inputValue.trim()}
-                  className="w-full bg-gray-900 hover:bg-gray-800 disabled:bg-gray-300 text-white font-medium py-3 rounded-lg transition-colors"
+                  className="w-full bg-gray-900 dark:bg-white hover:bg-gray-800 dark:hover:bg-gray-100 disabled:bg-gray-300 dark:disabled:bg-gray-600 text-white dark:text-gray-900 font-medium py-3 rounded-lg transition-colors"
                 >
                   Continue
                 </button>
@@ -71,7 +88,7 @@ export function SetupScreen({ onClientIdSet, clientId, onSignIn, isReady, isLoad
               <div className="mt-4">
                 <button
                   onClick={() => setShowInstructions(!showInstructions)}
-                  className="text-sm text-gray-500 hover:text-gray-700 flex items-center gap-1"
+                  className="text-sm text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 flex items-center gap-1"
                 >
                   <span>{showInstructions ? 'Hide' : 'Show'} setup instructions</span>
                   <svg
@@ -88,7 +105,7 @@ export function SetupScreen({ onClientIdSet, clientId, onSignIn, isReady, isLoad
                   <motion.div
                     initial={{ opacity: 0, height: 0 }}
                     animate={{ opacity: 1, height: 'auto' }}
-                    className="mt-4 text-sm text-gray-600 space-y-2"
+                    className="mt-4 text-sm text-gray-600 dark:text-gray-300 space-y-2"
                   >
                     <ol className="list-decimal list-inside space-y-2">
                       <li>Go to <a href="https://console.cloud.google.com" target="_blank" rel="noopener noreferrer" className="text-red-500 hover:underline">Google Cloud Console</a></li>
@@ -96,7 +113,7 @@ export function SetupScreen({ onClientIdSet, clientId, onSignIn, isReady, isLoad
                       <li>Enable the Gmail API</li>
                       <li>Go to Credentials → Create OAuth 2.0 Client ID</li>
                       <li>Set application type to "Web application"</li>
-                      <li>Add <code className="bg-gray-100 px-1 rounded">http://localhost:5173</code> to authorized JavaScript origins</li>
+                      <li>Add <code className="bg-gray-100 dark:bg-gray-700 px-1 rounded">http://localhost:5173</code> to authorized JavaScript origins</li>
                       <li>Copy the Client ID and paste it above</li>
                     </ol>
                   </motion.div>
@@ -105,12 +122,12 @@ export function SetupScreen({ onClientIdSet, clientId, onSignIn, isReady, isLoad
             </>
           ) : (
             <div className="space-y-4">
-              <p className="text-sm text-gray-500 text-center">
+              <p className="text-sm text-gray-500 dark:text-gray-400 text-center">
                 Sign in with your Google account to scan for subscriptions
               </p>
 
               {error && (
-                <div className="p-3 bg-red-50 border border-red-200 rounded-lg text-sm text-red-600">
+                <div className="p-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg text-sm text-red-600 dark:text-red-400">
                   {error}
                 </div>
               )}
@@ -118,7 +135,7 @@ export function SetupScreen({ onClientIdSet, clientId, onSignIn, isReady, isLoad
               <button
                 onClick={onSignIn}
                 disabled={!isReady || isLoading}
-                className="w-full bg-white hover:bg-gray-50 disabled:bg-gray-100 text-gray-700 font-medium py-3 rounded-lg border border-gray-200 transition-colors flex items-center justify-center gap-3"
+                className="w-full bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 disabled:bg-gray-100 dark:disabled:bg-gray-800 text-gray-700 dark:text-gray-200 font-medium py-3 rounded-lg border border-gray-200 dark:border-gray-600 transition-colors flex items-center justify-center gap-3"
               >
                 {isLoading ? (
                   <svg className="animate-spin h-5 w-5 text-gray-500" viewBox="0 0 24 24">
@@ -140,7 +157,7 @@ export function SetupScreen({ onClientIdSet, clientId, onSignIn, isReady, isLoad
 
               <button
                 onClick={() => onClientIdSet('')}
-                className="w-full text-sm text-gray-500 hover:text-gray-700"
+                className="w-full text-sm text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200"
               >
                 Change Client ID
               </button>
@@ -149,7 +166,7 @@ export function SetupScreen({ onClientIdSet, clientId, onSignIn, isReady, isLoad
         </motion.div>
 
         <motion.p
-          className="text-center text-xs text-gray-400 mt-6"
+          className="text-center text-xs text-gray-400 dark:text-gray-500 mt-6"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.5 }}
