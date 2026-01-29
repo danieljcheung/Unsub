@@ -20,6 +20,7 @@ function App() {
   const [isScanning, setIsScanning] = useState(false);
   const [scanProgress, setScanProgress] = useState(null);
   const [isProcessing, setIsProcessing] = useState(false);
+  const [cleanedCount, setCleanedCount] = useState(0);
   const hasFetchedRef = useRef(false);
 
   const { isDark, toggleTheme } = useTheme();
@@ -117,6 +118,7 @@ function App() {
         await new Promise((r) => setTimeout(r, 500));
 
         setProcessingStatus((prev) => new Map(prev).set(sender.email, 'done'));
+        setCleanedCount((prev) => prev + 1);
         setSelectedIds((prev) => {
           const next = new Set(prev);
           next.delete(sender.email);
@@ -181,6 +183,7 @@ function App() {
         isProcessing={isProcessing}
         isDark={isDark}
         onToggleTheme={toggleTheme}
+        cleanedCount={cleanedCount}
       />
 
       <AnimatePresence mode="wait">

@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 
-export function Header({ user, onSignOut, selectedCount, onUnsubscribe, isProcessing, isDark, onToggleTheme }) {
+export function Header({ user, onSignOut, selectedCount, onUnsubscribe, isProcessing, isDark, onToggleTheme, cleanedCount }) {
   return (
     <header className="sticky top-0 z-10 bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm border-b border-gray-200 dark:border-gray-700">
       <div className="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
@@ -13,6 +13,18 @@ export function Header({ user, onSignOut, selectedCount, onUnsubscribe, isProces
             Unsub
           </motion.h1>
           <span className="text-sm text-gray-500 dark:text-gray-400">Wall of Shame</span>
+          {cleanedCount > 0 && (
+            <motion.span
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400"
+            >
+              <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+              </svg>
+              {cleanedCount} cleaned
+            </motion.span>
+          )}
         </div>
 
         <div className="flex items-center gap-4">
